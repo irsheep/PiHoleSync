@@ -183,17 +183,17 @@ class PiHole:
 
 def DownloadBackup(configSection, backupDir):
   settings = PiSyncSettings(configSection)
-  print (f"Downloading backup to: {backupDir}")
-  print (vars(settings))
-  # pi = PiHole(settings)
-  # pi.DownloadBackup(backupDir)
+  # print (f"Downloading backup to: {backupDir}")
+  # print (vars(settings))
+  pi = PiHole(settings)
+  pi.DownloadBackup(backupDir)
 
 def RestoreBackup(configSection, backupFile):
   settings = PiSyncSettings(configSection)
-  print (f"Restoring from: {backupFile}")
-  print (vars(settings))
-  # pi = PiHole(settings)
-  # pi.UploadBackupFile(backupFile)
+  # print (f"Restoring from: {backupFile}")
+  # print (vars(settings))
+  pi = PiHole(settings)
+  pi.UploadBackupFile(backupFile)
 
 def DeleteOldBackups(backupDir, retentionPeriod):
   backupFiles = sorted(Path(backupDir).iterdir(), key=getmtime)
@@ -201,7 +201,7 @@ def DeleteOldBackups(backupDir, retentionPeriod):
     return False
   for backupFile in backupFiles[:retentionPeriod*-1]:
     print(f"Removing backup {realpath(backupFile)}")
-    # unlink(realpath(backupFile))
+    unlink(realpath(backupFile))
 
 if __name__ == '__main__':
   # Process command line arguments
@@ -252,4 +252,3 @@ if __name__ == '__main__':
       exit(1)
 
     RestoreBackup(config[piSettings.RestoreTarget], backupFile)
-
